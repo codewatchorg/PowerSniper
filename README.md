@@ -11,10 +11,21 @@ passdist.py requires jellyfish
 
 Usage
 =====
-usage: rockdist.py [-h] --wordlist WORDLIST --toplist TOPLIST                   [--output OUTPUT] [--passmin PASSMIN] [--passmax PASSMAX]                   [--complex] [--passdist PASSDIST]
-Get the distances between complex passwords and top passwords used
-optional arguments:  -h, --help           show this help message and exit  --wordlist WORDLIST  the file with the complex rockyou passwords (default:                       None)  --toplist TOPLIST    the file with the top rockyou passwords (default: None)  --output OUTPUT      the CSV output of the analysis (default: analysis.csv)  --passmin PASSMIN    the minimum size password to choose from (default: 7)  --passmax PASSMAX    the maximum size password to choose from (default: 12)  --complex            require complex passwords (default: 0)  --passdist PASSDIST  the maximum distance between passwords to keep                       (default: 4)
-Example: passdist.py --wordlist rockyou.txt --toplist toplist_rockyou.txt--output analysis.csv --passmin 7 --passmax 12 --complex --passdist 4
+usage: rockdist.py [-h] --wordlist WORDLIST --toplist TOPLIST [--output OUTPUT] [--passmin PASSMIN] 
+                        [--passmax PASSMAX] [--complex] [--passdist PASSDIST]
+                        
+  Get the distances between complex passwords and top passwords used
+
+  optional arguments:  
+    -h, --help           show this help message and exit  
+    --wordlist WORDLIST  the file with the complex rockyou passwords (default: None)  
+    --toplist TOPLIST    the file with the top rockyou passwords (default: None)  
+    --output OUTPUT      the CSV output of the analysis (default: analysis.csv)  
+    --passmin PASSMIN    the minimum size password to choose from (default: 7)  
+    --passmax PASSMAX    the maximum size password to choose from (default: 12)  
+    --complex            require complex passwords (default: 0)  
+    --passdist PASSDIST  the maximum distance between passwords to keep (default: 4)
+
 
 Example passdist.py command:
 <pre>
