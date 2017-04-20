@@ -11,6 +11,7 @@ passdist.py requires jellyfish
 
 Usage
 =====
+<pre>
 usage: rockdist.py [-h] --wordlist WORDLIST --toplist TOPLIST [--output OUTPUT] [--passmin PASSMIN] 
                         [--passmax PASSMAX] [--complex] [--passdist PASSDIST]
                         
@@ -25,7 +26,7 @@ usage: rockdist.py [-h] --wordlist WORDLIST --toplist TOPLIST [--output OUTPUT] 
     --passmax PASSMAX    the maximum size password to choose from (default: 12)  
     --complex            require complex passwords (default: 0)  
     --passdist PASSDIST  the maximum distance between passwords to keep (default: 4)
-
+</pre>
 
 Example passdist.py command:
 <pre>
