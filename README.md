@@ -33,6 +33,32 @@ Example passdist.py command:
     python passdist.py --wordlist rockyou.txt --toplist toplist_rockyou.txt --output lowdist.csv --passmin 7 --passmax 12 --complex --passdist 4
 </pre>
 
+<pre>
+NAME    
+  Invoke-PowerSniper
+SYNOPSIS    
+  This module loops through usernames and passwords and attempts to authenticate with them against various Microsoft Exchange web-based services.
+    PowerSniper Function: Invoke-PowerSniper    
+    Author: Josh Berry (@codewatchorg)    
+    License: BSD 3-Clause    
+    Required Dependencies: None    
+    Optional Dependencies: None
+
+SYNTAX    
+  Invoke-PowerSniper [[-uri] <Object>] [[-svc] <Object>] [[-userlist] <Object>] [[-passlist] <Object>] [[-sos] <Object>] [[-lockout] <Object>] [[-locktime]    <Object>] [<CommonParameters>]
+
+DESCRIPTION    
+  This module loops through usernames and passwords and attempts to authenticate with them against various Microsoft Exchange web-based services.  The script supports pausing after a specified lockout count for a specified period of time to prevent account lockouts.
+
+RELATED LINKS    
+  https://blogs.technet.microsoft.com/meamcs/2015/03/06/powershell-script-to-simulate-outlook-web-access-url-user-logon/
+  http://mobilitydojo.net/2010/03/30/rolling-your-own-exchange-activesync-client/
+  http://mobilitydojo.net/2011/08/24/exchange-activesync-building-blocks-first-sync/
+  http://mobilitydojo.net/files/EAS_BB/Part_02/HTTP_GET.cs
+  https://blogs.technet.microsoft.com/heyscriptingguy/2011/12/02/learn-to-use-the-exchange-web-services-with-powershell/
+  http://stackoverflow.com/questions/1582285/how-to-remove-elements-from-a-generic-list-while-iterating-over-it
+  https://github.com/dafthack/MailSniper
+</pre>
 Example PowerSniper.ps1 usage:
 <pre>
     # Outlook Anywhere Test
