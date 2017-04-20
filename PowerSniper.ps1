@@ -239,7 +239,7 @@ zL13fBXF+j9+snvSQ0hCOCcECEXKGpIAAZEOoqBGCL33qoSycZcmhxMQO9KVqqKCoBRBUQFRARERbNeK
     $Cookie = New-Object System.Net.Cookie;
     $Cookie.Name = "PBack";
     $Cookie.Value = "0";
-    $Cookie.Domain = $domain.Split("/")[0]
+    $Cookie.Domain = $Domain.Split("/")[0]
     $WebSession.Cookies.Add($Cookie);
 
     # Create the parameters to send in the request, including credentials
