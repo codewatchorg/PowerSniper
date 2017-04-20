@@ -5,6 +5,16 @@ The Python script uses configurable parameters to extract complex passwords from
 
 The PowerShell script loops through usernames and passwords and attempts to authenticate with them against various Microsoft Exchange web-based services.  The script supports pausing after a specified lockout count for a specified period of time to prevent account lockouts.
 
+PowerSniper supports password spraying against the following services at this time:
+
+<ul>
+<li>Outlook Web Access</li>
+<li>Outlook Anywhere</li>
+<li>ActiveSync</li>
+</ul>
+
+The code that loads the Microsoft.Exchange.WebServices.dll for Outlook Anywhere authentication was found in the MailSniper tool (https://github.com/dafthack/MailSniper) created by @dafthack.
+
 Requirements
 ============
 passdist.py requires jellyfish
