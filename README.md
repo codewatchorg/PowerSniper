@@ -30,7 +30,8 @@ usage: rockdist.py [-h] --wordlist WORDLIST --toplist TOPLIST [--output OUTPUT] 
 
 Example passdist.py command:
 <pre>
-    python passdist.py --wordlist rockyou.txt --toplist toplist_rockyou.txt --output lowdist.csv --passmin 7 --passmax 12 --complex --passdist 4
+    python passdist.py --wordlist rockyou.txt --toplist toplist_rockyou.txt --output lowdist.csv --passmin 7 
+        --passmax 12 --complex --passdist 4
 </pre>
 
 <pre>
@@ -38,7 +39,8 @@ NAME   
   Invoke-PowerSniper
   
 SYNOPSIS    
-  This module loops through usernames and passwords and attempts to authenticate with them against various Microsoft Exchange web-based services.
+  This module loops through usernames and passwords and attempts to authenticate with them against various 
+  Microsoft Exchange web-based services.
   
     PowerSniper Function: Invoke-PowerSniper    
     Author: Josh Berry (@codewatchorg)    
@@ -47,10 +49,14 @@ SYNOPSIS   
     Optional Dependencies: None
 
 SYNTAX    
-  Invoke-PowerSniper [[-uri] &lt;Object&gt;] [[-svc] &lt;Object&gt;] [[-userlist] &lt;Object&gt;] [[-passlist] &lt;Object&gt;] [[-sos] &lt;Object&gt;] [[-lockout] &lt;Object&gt;] [[-locktime] &lt;Object&gt;] [&lt;CommonParameters&gt;]
+  Invoke-PowerSniper [[-uri] &lt;Object&gt;] [[-svc] &lt;Object&gt;] [[-userlist] &lt;Object&gt;] 
+      [[-passlist] &lt;Object&gt;] [[-sos] &lt;Object&gt;] [[-lockout] &lt;Object&gt;] 
+      [[-locktime] &lt;Object&gt;] [&lt;CommonParameters&gt;]
 
 DESCRIPTION    
-  This module loops through usernames and passwords and attempts to authenticate with them against various Microsoft Exchange web-based services.  The script supports pausing after a specified lockout count for a specified period of time to prevent account lockouts.
+  This module loops through usernames and passwords and attempts to authenticate with them against 
+  various Microsoft Exchange web-based services.  The script supports pausing after a specified 
+  lockout count for a specified period of time to prevent account lockouts.
 
 RELATED LINKS    
   https://blogs.technet.microsoft.com/meamcs/2015/03/06/powershell-script-to-simulate-outlook-web-access-url-user-logon/
@@ -65,11 +71,14 @@ RELATED LINKS   
 Example PowerSniper.ps1 usage:
 <pre>
     # Outlook Anywhere Test
-    Invoke-PowerSniper -uri https://outlook.office365.com -svc oa -userlist users.txt -passlist passwords.txt -sos false -lockout 6 -locktime 30
+    Invoke-PowerSniper -uri https://outlook.office365.com -svc oa -userlist users.txt -passlist passwords.txt 
+        -sos false -lockout 6 -locktime 30
     
     # ActiveSync Test
-    Invoke-PowerSniper -uri https://outlook.office365.com -svc as -userlist users.txt -passlist passwords.txt -sos false -lockout 6 -locktime 30
+    Invoke-PowerSniper -uri https://outlook.office365.com -svc as -userlist users.txt -passlist passwords.txt 
+        -sos false -lockout 6 -locktime 30
     
     # Outlook Web Access Test
-    Invoke-PowerSniper -uri https://mail.victim.com/owa/auth.owa -svc owa -userlist users.txt -passlist passwords.txt -sos false -lockout 6 -locktime 30
+    Invoke-PowerSniper -uri https://mail.victim.com/owa/auth.owa -svc owa -userlist users.txt 
+        -passlist passwords.txt -sos false -lockout 6 -locktime 30
 </pre>
