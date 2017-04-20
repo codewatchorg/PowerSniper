@@ -36,8 +36,10 @@ Example passdist.py command:
 <pre>
 NAME    
   Invoke-PowerSniper
+  
 SYNOPSIS    
   This module loops through usernames and passwords and attempts to authenticate with them against various Microsoft Exchange web-based services.
+  
     PowerSniper Function: Invoke-PowerSniper    
     Author: Josh Berry (@codewatchorg)    
     License: BSD 3-Clause    
@@ -45,7 +47,7 @@ SYNOPSIS   
     Optional Dependencies: None
 
 SYNTAX    
-  Invoke-PowerSniper [[-uri] <Object>] [[-svc] <Object>] [[-userlist] <Object>] [[-passlist] <Object>] [[-sos] <Object>] [[-lockout] <Object>] [[-locktime]    <Object>] [<CommonParameters>]
+  Invoke-PowerSniper [[-uri] &lt;Object&gt;] [[-svc] &lt;Object&gt;] [[-userlist] &lt;Object&gt;] [[-passlist] &lt;Object&gt;] [[-sos] &lt;Object&gt;] [[-lockout] &lt;Object&gt;] [[-locktime] &lt;Object&gt;] [&lt;CommonParameters&gt;]
 
 DESCRIPTION    
   This module loops through usernames and passwords and attempts to authenticate with them against various Microsoft Exchange web-based services.  The script supports pausing after a specified lockout count for a specified period of time to prevent account lockouts.
@@ -59,6 +61,7 @@ RELATED LINKS   
   http://stackoverflow.com/questions/1582285/how-to-remove-elements-from-a-generic-list-while-iterating-over-it
   https://github.com/dafthack/MailSniper
 </pre>
+
 Example PowerSniper.ps1 usage:
 <pre>
     # Outlook Anywhere Test
