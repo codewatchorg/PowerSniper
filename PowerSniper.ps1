@@ -330,7 +330,6 @@ zL13fBXF+j9+snvSQ0hCOCcECEXKGpIAAZEOoqBGCL33qoSycZcmhxMQO9KVqqKCoBRBUQFRARERbNeK
 
   # Load username list into a variable
   [System.Collections.ArrayList]$usernames = Get-Content $userlist;
-  $passwords = Get-Content $passlist;
 
   # Set a counter for tracking lockout
   $LockCount = 1;
