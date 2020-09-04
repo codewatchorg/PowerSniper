@@ -27,7 +27,7 @@ passdist.py requires jellyfish
 Usage
 =====
 <pre>
-usage: rockdist.py [-h] --wordlist WORDLIST --toplist TOPLIST [--output OUTPUT] [--passmin PASSMIN] 
+usage: passdist.py [-h] --wordlist WORDLIST --toplist TOPLIST [--output OUTPUT] [--passmin PASSMIN] 
                         [--passmax PASSMAX] [--complex] [--passdist PASSDIST]
                         
   Get the distances between complex passwords and top passwords used
