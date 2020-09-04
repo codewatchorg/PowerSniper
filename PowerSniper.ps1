@@ -177,12 +177,23 @@ zL13fBXF+j9+snvSQ0hCOCcECEXKGpIAAZEOoqBGCL33qoSycZcmhxMQO9KVqqKCoBRBUQFRARERbNeK
 	  # If string contains 'command completed successfully' then the creds worked
 	  If ($webrequest.StatusCode -eq "200") {
 	    $AuthStatus = "Success";
+          }	  
+	} Catch {
+          If ($RespErr -match "AADSTS50055") {
+            Write-Host "Password expired, but authentication to service $svc succeeded: $username / $password";
+	    $AuthStatus = "Success";
+          } ElseIf ($RespErr -match "AADSTS50079") {
+            Write-Host "Requires MFA, but authentication to service $svc succeeded: $username / $password";
+	    $AuthStatus = "Success";
+          } ElseIf ($RespErr -match "AADSTS50076") {
+            Write-Host "Requires MFA, but authentication to service $svc succeeded: $username / $password";
+	    $AuthStatus = "Success";
+          } ElseIf ($RespErr -match "AADSTS50158") {
+            Write-Host "Requires MFA, but authentication to service $svc succeeded: $username / $password";
+	    $AuthStatus = "Success";
           } Else {
 	    $AuthStatus = "Failure";
           }
-	  
-	} Catch {
-          $AuthStatus = "Failure";
 	}
 	
 	# Return the result
