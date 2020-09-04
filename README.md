@@ -11,7 +11,12 @@ PowerSniper supports password spraying against the following services at this ti
 <li>Outlook Web Access</li>
 <li>Outlook Anywhere</li>
 <li>ActiveSync</li>
+<li>Microsoft Online</li>
+<li>SMB</li>
+<li>WMI</li>
 </ul>
+
+PowerEnum is a tool that performs account enumeration only. It sprays Microsoft Online with a given username list using a password of 'password' and identifies valid accounts based on error messages.
 
 The code that loads the Microsoft.Exchange.WebServices.dll for Outlook Anywhere authentication was found in the MailSniper tool (https://github.com/dafthack/MailSniper) created by @dafthack.
 
@@ -91,4 +96,32 @@ Example PowerSniper.ps1 usage:
     # Outlook Web Access Test
     Invoke-PowerSniper -uri https://mail.victim.com/owa/auth.owa -svc owa -userlist users.txt 
         -passlist passwords.txt -sos false -lockout 6 -locktime 30
+</pre>
+
+<pre>
+NAME    
+  Invoke-PowerEnum
+  
+SYNOPSIS    
+  This module loops through usernames to validate accounts on MSOL.
+  
+    PowerEnum Function: Invoke-PowerEnum    
+    Author: Josh Berry (@codewatchorg)    
+    License: BSD 3-Clause    
+    Required Dependencies: None    
+    Optional Dependencies: None
+
+SYNTAX    
+  Invoke-PowerEnum [[-userlist] &lt;Object&gt;] 
+
+DESCRIPTION    
+  This module loops through usernames to spray against Microsoft Online to identify valid accounts.
+
+RELATED LINKS    
+  https://github.com/dafthack/MSOLSpray
+</pre>
+
+Example PowerEnum.ps1 usage:
+<pre>
+    Invoke-PowerEnum -userlist
 </pre>

@@ -2,9 +2,9 @@ function Invoke-PowerEnum {
 <#
   .SYNOPSIS
 
-    This module loops through usernames to validate accounts on MSOL
+    This module loops through usernames to validate accounts on MSOL.
 
-    PowerSniper Function: Invoke-PowerEnum
+    PowerEnum Function: Invoke-PowerEnum
     Author: Josh Berry (@codewatchorg)
     License: BSD 3-Clause
     Required Dependencies: None
